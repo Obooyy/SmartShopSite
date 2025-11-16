@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Télécharger SmartShop</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* BACKGROUND NOIR */
+body {
+    background: black;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    position: relative;
+    overflow: hidden;
+    color: #00ff00;
+}
+
+/* MATRIX CANVAS */
+#matrix {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -1;
+}
+
+/* CONTAINER FONCÉ */
+.download-container {
+    background: rgba(0,0,0,0.85);
+    border-radius: 20px;
+    padding: 40px;
+    text-align: center;
+    max-width: 500px;
+    width: 100%;
+    box-shadow: 0 0 20px #00ff00;
+    position: relative;
+    z-index: 5;
+}
+
+/* TITRES ET TEXTES */
+h1 {
+    color: #00ff00;
+    margin-bottom: 10px;
+    font-size: 2.2em;
+}
+
+.subtitle {
+    color: #a0ffa0;
+    margin-bottom: 30px;
+    font-size: 1.1em;
+}
+
+/* BOUTON */
+.download-btn {
+    background: #00ff00;
+    color: black;
+    padding: 15px 40px;
+    font-size: 1.2em;
+    border-radius: 50px;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    margin-bottom: 20px;
+    font-weight: bold;
+    box-shadow: 0 0 15px #00ff00;
+    transition: 0.3s;
+}
+
+.download-btn:hover {
+    background: #00cc00;
+    box-shadow: 0 0 35px #00ff00;
+}
+
+/* FEATURES */
+.features {
+    text-align: left;
+    margin: 30px 0;
+}
+
+.feature {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+    color: #a0ffa0;
+}
+
+.feature-icon {
+    color: #00ff00;
+    margin-right: 10px;
+    font-size: 1.2em;
+}
+
+/* INSTRUCTIONS */
+.instructions {
+    background: rgba(0,255,0,0.05);
+    padding: 20px;
+    border-radius: 10px;
+    margin-top: 20px;
+    text-align: left;
+    border: 1px solid #00ff00;
+}
+
+.instructions h3 {
+    color: #00ff00;
+    margin-bottom: 10px;
+}
+
+.step {
+    margin-bottom: 8px;
+    color: #a0ffa0;
+}
+
+.version {
+    color: #a0ffa0;
+    font-size: 0.9em;
+    margin-top: 20px;
+}
+</style>
+</head>
+
+<body>
+
+<!-- MATRIX CANVAS -->
+<canvas id="matrix"></canvas>
+
+<div class="download-container">
+    <h1>SmartShop</h1>
+    <p class="subtitle">Gestion de stock professionnelle</p>
+
+    <a href="https://github.com/Obooyy/smartshop-app/releases/download/v1.0.0/app-release.apk" class="download-btn" download>
+        📥 Télécharger l'App
+    </a>
+
+    <div class="features">
+        <div class="feature"><span class="feature-icon">✓</span> Gestion des catégories et produits</div>
+        <div class="feature"><span class="feature-icon">✓</span> Synchronisation cloud</div>
+        <div class="feature"><span class="feature-icon">✓</span> Interface intuitive</div>
+        <div class="feature"><span class="feature-icon">✓</span> 100% gratuit</div>
+    </div>
+
+    <div class="instructions">
+        <h3>Instructions d'installation :</h3>
+        <div class="step">1. Téléchargez le fichier APK ci-dessus</div>
+        <div class="step">2. Autorisez l'installation depuis des sources inconnues</div>
+        <div class="step">3. Ouvrez le fichier téléchargé et installez</div>
+        <div class="step">4. Lancez SmartShop et profitez !</div>
+    </div>
+
+    <div class="version">Version 1.0.0</div>
+</div>
+
+<script>
+/* MATRIX SCRIPT */
+const canvas = document.getElementById("matrix");
+const ctx = canvas.getContext("2d");
+
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+const letters = "01010101010101010101010101010101";
+const fontSize = 18;
+const columns = Math.floor(canvas.width / fontSize);
+const drops = Array(columns).fill(1);
+
+function drawMatrix() {
+    ctx.fillStyle = "rgba(0, 0, 0, 0.07)";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    ctx.fillStyle = "#00ff00";
+    ctx.font = fontSize + "px monospace";
+
+    for (let i = 0; i < drops.length; i++) {
+        const text = letters[Math.floor(Math.random() * letters.length)];
+        ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+
+        if (drops[i] * fontSize > canvas.height && Math.random() > 0.1) drops[i] = 0;
+
+        drops[i]++;
+    }
+}
+
+setInterval(drawMatrix, 35);
+</script>
+
+</body>
+</html>
