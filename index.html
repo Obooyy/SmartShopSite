@@ -11,6 +11,7 @@
     --text: #a0ffa0;
 }
 
+/* RESET */
 * {
     margin: 0;
     padding: 0;
@@ -18,7 +19,7 @@
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-/* BACKGROUND NOIR */
+/* 🔥 BACKGROUND + CADRE RGB ANIMÉ */
 body {
     background: black;
     min-height: 100vh;
@@ -31,17 +32,27 @@ body {
     color: var(--main);
 }
 
-/* MATRIX CANVAS */
-#matrix {
+/* 🟦 CADRE RGB GAMING */
+body::before {
+    content: "";
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    z-index: -1;
+    top: 0; left: 0; right: 0; bottom: 0;
+    border: 6px solid transparent;
+    border-radius: 15px;
+    pointer-events: none;
+    animation: rgbBorder 5s linear infinite;
 }
 
-/* CONTAINER FONCÉ */
+/* Animation RGB */
+@keyframes rgbBorder {
+    0%   { box-shadow: 0 0 25px 5px red inset; }
+    25%  { box-shadow: 0 0 25px 5px blue inset; }
+    50%  { box-shadow: 0 0 25px 5px lime inset; }
+    75%  { box-shadow: 0 0 25px 5px purple inset; }
+    100% { box-shadow: 0 0 25px 5px red inset; }
+}
+
+/* CONTAINER */
 .download-container {
     background: rgba(0,0,0,0.85);
     border-radius: 20px;
@@ -52,7 +63,7 @@ body {
     box-shadow: 0 0 20px var(--main);
 }
 
-/* TITRES ET TEXTES */
+/* TITRES */
 h1 {
     color: var(--main);
     margin-bottom: 10px;
@@ -82,7 +93,6 @@ h1 {
 }
 
 .download-btn:hover {
-    background: var(--main);
     box-shadow: 0 0 35px var(--main);
 }
 
@@ -135,14 +145,12 @@ h1 {
 
 <body>
 
-<!-- MATRIX CANVAS -->
-<canvas id="matrix"></canvas>
-
 <div class="download-container">
     <h1>SmartShop</h1>
     <p class="subtitle">Gestion de stock professionnelle</p>
 
-<a href="https://github.com/Obooyy/SmartShop-APK/releases/download/v1.1.0/app-release.apk" class="download-btn" download>
+<a href="https://github.com/Obooyy/SmartShop-APK/releases/download/v1.1.0/app-release.apk"
+   class="download-btn" download>
     📥 Télécharger l'App
 </a>
 
@@ -157,7 +165,7 @@ h1 {
         <h3>Instructions d'installation :</h3>
         <div class="step">1. Téléchargez le fichier APK ci-dessus</div>
         <div class="step">2. Autorisez l'installation depuis des sources inconnues</div>
-        <div class="step">3. Ouvrez le fichier téléchargé et installez</div>
+        <div class="step">3. Installez l’application</div>
         <div class="step">4. Lancez SmartShop et profitez !</div>
     </div>
 
@@ -165,50 +173,15 @@ h1 {
 </div>
 
 <script>
-/* MATRIX SCRIPT */
-const canvas = document.getElementById("matrix");
-const ctx = canvas.getContext("2d");
-
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
-
-const letters = "01010101010101010101010101010101";
-const fontSize = 18;
-const columns = Math.floor(canvas.width / fontSize);
-const drops = Array(columns).fill(1);
-
-function drawMatrix() {
-    ctx.fillStyle = "rgba(0, 0, 0, 0.07)";
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-    ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--main');
-    ctx.font = fontSize + "px monospace";
-
-    for (let i = 0; i < drops.length; i++) {
-        const text = letters[Math.floor(Math.random() * letters.length)];
-        ctx.fillText(text, i * fontSize, drops[i] * fontSize);
-
-        if (drops[i] * fontSize > canvas.height && Math.random() > 0.1) drops[i] = 0;
-
-        drops[i]++;
-    }
-}
-
-setInterval(drawMatrix, 35);
-
-/* 🎨 CHANGEMENT AUTOMATIQUE DES COULEURS TOUTES LES SECONDES */
+/* 🎨 Changement automatique des couleurs internes */
 function randomColor() {
     return "#" + Math.floor(Math.random() * 16777215).toString(16);
 }
 
 setInterval(() => {
-    let main = randomColor();
-    let text = randomColor();
-
-    document.documentElement.style.setProperty('--main', main);
-    document.documentElement.style.setProperty('--text', text);
+    document.documentElement.style.setProperty('--main', randomColor());
+    document.documentElement.style.setProperty('--text', randomColor());
 }, 1000);
-
 </script>
 
 </body>
